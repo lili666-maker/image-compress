@@ -1,77 +1,84 @@
-# 在线图片压缩工具（纯前端版）
+# 在线图片压缩工具
 
-一个无需服务器、无需注册的免费图片压缩工具：访客选图后，压缩在**自己的浏览器**里完成，图片不上传到任何服务器，关闭页面即自动消失。
+一个无需服务器、无需注册的免费图片压缩工具：选一张图片，压缩在你的浏览器里就地完成，**图片从不离开你的设备**。
 
-## 功能特性
+<!-- 上线后取消注释并填入实际地址
+> 🔗 在线使用：
+-->
 
-- 本地压缩：零上传、隐私安全，自动清除 EXIF / GPS 等全部元数据
-- 支持 JPG、JPEG、PNG、WEBP；浏览器支持 AVIF 时自动启用
-- 质量滑块 + 高画质 / 均衡 / 高压缩 三档预设
-- 压缩前后大小对比与节省比例
-- 本机历史记录（保存在浏览器 localStorage，最多 50 条，可一键清除）
-- 单张最大 1 亿像素（100MP），超出会明确提示
+## 特性
+
+- 🔒 **隐私优先** — 全程本地处理、零上传；重编码自动剥离 EXIF / GPS 等全部元数据
+- 🆓 **免费无限制** — 无注册、无水印、无次数限制
+- 🖼️ 支持 JPG、JPEG、PNG、WEBP；浏览器支持时自动启用 AVIF
+- 🎚️ 质量滑块（10–100）+ 高画质 / 均衡 / 高压缩 三档预设
+- 📉 压缩前后大小与节省比例实时对比；重编码反而变大时自动保留原图，输出永不大于输入
+- 🕘 本机历史记录（localStorage，最多 50 条，支持单条清除 / 全部清除）
+- 📱 响应式界面，手机浏览器（含微信内置浏览器）可用
+- 🚀 纯静态、零依赖，任何静态托管都能直接部署
 
 不支持 GIF 动图、HEIC、TIFF、RAW、PSD、SVG 等格式。PNG 为无损格式，质量滑块对它效果有限。
 
-## 目录结构
+## 使用方法
 
-```text
-index.html          # 页面入口（根目录，静态托管直接可用）
-static/css/style.css
-static/js/script.js # Canvas 本地压缩引擎
-.nojekyll           # GitHub Pages 跳过 Jekyll 处理
-```
+1. 打开网页，点击或拖入一张图片
+2. 调整压缩质量（数值越低体积越小，但太低图会变模糊）
+3. 点击「开始压缩」，对比前后效果，满意后「下载图片」
 
-## 本地试用
+## 本地运行
 
-没有网络请求，直接双击 `index.html` 就能完整使用。也可以起一个本地服务：
+纯静态站点、零网络请求，直接双击 `index.html` 就能完整使用；也可以起一个本地服务：
 
 ```powershell
 python -m http.server 8000
 # 打开 http://127.0.0.1:8000
 ```
 
-## 部署到 GitHub Pages
+## 部署自己的实例
 
-1. 在 GitHub 新建一个 Public 仓库（例如 `image-compress`）。
-2. 本地推送代码：
+仓库本身就是完整静态站点（根目录即站点根目录），克隆或 Fork 后放到任何静态托管即可，无需构建：
 
-```powershell
-git remote add origin https://github.com/你的用户名/image-compress.git
-git branch -M main
-git push -u origin main
+**GitHub Pages**
+
+1. Fork 或克隆本仓库到你的 GitHub 账号下
+2. 仓库 `Settings` → `Pages` → Source 选 `Deploy from a branch`，分支选 `main`、目录选 `/ (root)`，保存
+3. 1-2 分钟后访问 `https://你的用户名.github.io/仓库名/`
+
+**腾讯 EdgeOne Pages**（大陆访客连通性更好）
+
+1. 打开 [EdgeOne Pages 官方站](https://pages.edgeone.ai/zh/)（或在腾讯云控制台搜索 EdgeOne），微信扫码或 GitHub 账号登录
+2. 创建项目 → 导入 Git 仓库 → 选中仓库，分支保持 `main`
+3. 构建配置：框架预设选「无/静态」，构建命令与安装命令留空，输出目录保持根目录
+4. 部署完成后获得 `xxx.edgeone.app` 免费域名
+
+两个平台可以同时启用：每次 `git push`，两边自动更新。
+
+## 目录结构
+
+```text
+index.html              # 页面入口（根目录，静态托管直接可用）
+static/css/style.css    # 全部样式
+static/js/script.js     # 压缩引擎与交互逻辑
+static/img/bg.svg       # 背景装饰图
+.nojekyll               # 让 GitHub Pages 跳过 Jekyll 处理
 ```
 
-3. 打开仓库页面 → `Settings` → `Pages` → Source 选择 `Deploy from a branch` → 分支选 `main`、目录选 `/ (root)` → `Save`。
-4. 等 1-2 分钟，访问 `https://你的用户名.github.io/image-compress/` 即可。
+## 技术实现
 
-## 部署到腾讯 EdgeOne Makers（原 EdgeOne Pages，大陆访问更快）
-
-1. 打开 [EdgeOne Makers 官方站](https://pages.edgeone.ai/zh/)（或在腾讯云控制台搜索 EdgeOne），用微信扫码或 GitHub 账号登录并开通免费版。
-2. 创建项目 → 导入 Git 仓库 → 授权 GitHub → 选中本仓库，分支保持 `main`。
-3. 构建配置：框架预设选「无/静态」，构建命令与安装命令留空，输出目录保持根目录；新版界面若没有这些字段，保持默认即可。
-4. 部署完成后获得 `xxx.edgeone.app` 免费域名，对大陆访客的连通性最好。
-
-两个平台同时部署、共用同一份代码：推一次 `git push`，两边都会自动更新。
+- **压缩管线**：`createImageBitmap`（按 EXIF 方向转正）解码 → Canvas 2D 绘制 → `canvas.toBlob` 重编码；不支持的老浏览器自动降级为 Image 元素解码
+- **格式能力探测**：1×1 画布探测 WEBP / AVIF 编码支持，1×1 base64 图片探测 AVIF 解码支持；输出格式跟随输入，浏览器不支持编码时自动降级（WEBP→JPG、AVIF→WEBP/JPG）并明确提示
+- **输出永不大于原图**：重编码结果不小于原文件时，跳过重编码直接保留原文件并如实提示（此时不进行元数据清除）
+- **兼容性**：Chrome / Edge / Firefox / Safari 现代版本、微信内置浏览器均可正常使用
 
 ## 常见问题
 
 - **AVIF 选项没出现？** 当前浏览器不支持 AVIF，工具自动隐藏了该格式；换新版 Chrome / Edge 即可。
 - **大图片卡住？** 超过 1 亿像素的图会被拦截；手机处理几千万像素的大图可能需要几秒。
 - **PNG 压了没变小？** PNG 是无损格式，Canvas 对 PNG 不使用质量参数；想要明显变小建议改用 JPG / WEBP。
-- **为什么有时提示"已保留原图"？** 原图本身已高度压缩（或图太小）时，重编码反而可能变大。此时工具会跳过重编码、直接保留原文件，保证下载结果永远不大于原图；注意这种情况不会清除原文件的元数据。
+- **为什么有时提示"原图已最优，已保留原图"？** 原图本身已高度压缩（或图太小）时，重编码反而可能变大。此时工具会跳过重编码、直接保留原文件，保证下载结果永远不大于原图；注意这种情况不会清除原文件的元数据。
 
-## 技术说明
+## 隐私
 
-- 压缩：Canvas 2D + `canvas.toBlob`，滑块数值直接映射编码质量参数
-- 隐私：按 EXIF 方向解码位图后重新编码，天然剥离全部元数据（含拍摄位置）
-- 兼容：Chrome / Edge / Firefox / Safari 现代版、微信内置浏览器均可；老浏览器自动走 Image 元素降级解码路径
-
-## 历史版本
-
-最初的 Flask + Pillow 服务器版已移除。改造前的完整代码保存在 git 历史的首次提交中，需要找回时：
-
-```powershell
-git log --oneline                # 找到「存档：Flask 服务器版」的提交号
-git checkout <提交号> -- app.py requirements.txt templates tests deploy
-```
+- **不上传**：没有后端服务器，图片数据不产生任何网络请求
+- **不留存**：关闭页面即消失；压缩记录仅保存在你本机浏览器的 localStorage
+- **可验证**：打开浏览器开发者工具的 Network 面板，选图、压缩全程看不到任何图片请求
