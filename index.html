@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="免费在线图片压缩工具：图片在浏览器本地压缩、不上传服务器，支持 JPG、PNG、WEBP、AVIF，自动清除位置等隐私信息。">
+  <title>在线图片压缩工具 - 本地处理 · 免费无限制</title>
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+  <main class="container">
+    <header class="page-header">
+      <h1>图片压缩工具</h1>
+      <p>选一张图片，在浏览器里直接压缩，完成后立即下载。</p>
+    </header>
+
+    <section class="notice" aria-label="使用说明">
+      <p>🔒 图片只在本设备浏览器内处理，不会上传到任何服务器，关闭页面即自动消失。</p>
+      <p id="format-note">支持 JPG、JPEG、PNG、WEBP；单张最大 1 亿像素。压缩在浏览器本地完成，结果不保留原图元数据（含拍摄位置等隐私信息）。</p>
+    </section>
+
+    <section class="tool" aria-label="图片压缩">
+      <div id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-controls="file-input">
+        <span class="upload-mark" aria-hidden="true">+</span>
+        <strong>选择图片</strong>
+        <p>也可以将一张图片拖到这里</p>
+        <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp" hidden>
+      </div>
+
+      <div class="controls">
+        <div class="quality-control">
+          <div class="control-heading">
+            <label for="quality">压缩质量 <span id="quality-value">85</span></label>
+            <div class="presets" role="group" aria-label="压缩预设">
+              <button type="button" data-quality="95">高画质</button>
+              <button type="button" class="is-selected" data-quality="85">均衡</button>
+              <button type="button" data-quality="65">高压缩</button>
+            </div>
+          </div>
+          <input type="range" id="quality" min="10" max="100" value="85" step="1">
+          <p>数值越低，JPG、WEBP、AVIF 的体积通常越小，但太低时图会变模糊。PNG 为无损格式，质量滑块效果有限。</p>
+        </div>
+      </div>
+
+      <p id="status" class="status" role="status" aria-live="polite">请选择一张图片。</p>
+
+      <div class="compare">
+        <article class="preview-card">
+          <h2>原图</h2>
+          <img id="preview-before" alt="原图预览" hidden>
+          <p id="size-before">尚未选择文件</p>
+        </article>
+        <article class="preview-card">
+          <h2>压缩结果</h2>
+          <img id="preview-after" alt="压缩结果预览" hidden>
+          <p id="size-after">等待处理</p>
+          <p id="ratio" class="ratio"></p>
+        </article>
+      </div>
+
+      <div class="actions">
+        <button id="btn-compress" type="button" disabled>开始压缩</button>
+        <button id="btn-download" class="secondary" type="button" hidden>下载图片</button>
+      </div>
+    </section>
+
+    <section class="history" aria-label="本机压缩历史">
+      <div class="section-heading">
+        <div>
+          <h2>本机历史</h2>
+          <p>仅保存在当前浏览器，不会上传到服务器。</p>
+        </div>
+        <button id="btn-clear-history" class="text-button" type="button">全部清除</button>
+      </div>
+      <div class="history-table-wrap">
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>文件名</th>
+              <th>原大小</th>
+              <th>压缩后</th>
+              <th>结果</th>
+              <th>时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="static/js/script.js"></script>
+</body>
+</html>
